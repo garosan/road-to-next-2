@@ -19,33 +19,27 @@ export const fromErrorToActionState = (
   formData?: FormData
 ): ActionState => {
   if (error instanceof ZodError) {
-    // if validation error with Zod, return first error message
-
     return {
       status: "ERROR",
-      message: error.issues[0].message,
-      fieldErrors: error.flatten().fieldErrors,
+      message: "",
       payload: formData,
+      fieldErrors: error.flatten().fieldErrors,
       timestamp: Date.now(),
     };
   } else if (error instanceof Error) {
-    // if another error instance, return error message
-    // e.g. database error
     return {
       status: "ERROR",
       message: error.message,
-      fieldErrors: {},
       payload: formData,
+      fieldErrors: {},
       timestamp: Date.now(),
     };
   } else {
-    // if not an error instance but something else crashed
-    // return generic error message
     return {
       status: "ERROR",
-      message: "An unknown error occured",
-      fieldErrors: {},
+      message: "An unknown error occurred",
       payload: formData,
+      fieldErrors: {},
       timestamp: Date.now(),
     };
   }
@@ -55,5 +49,10 @@ export const toActionState = (
   status: ActionState["status"],
   message: string
 ): ActionState => {
-  return { status, message, fieldErrors: {}, timestamp: Date.now() };
+  return {
+    status,
+    message,
+    fieldErrors: {},
+    timestamp: Date.now(),
+  };
 };

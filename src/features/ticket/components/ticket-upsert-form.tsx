@@ -21,6 +21,17 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
     EMPTY_ACTION_STATE
   );
 
+  useActionFeedback(actionState, {
+    onSuccess: ({ actionState }) => {
+      console.log(actionState.message);
+      // TODO optionally handle success
+    },
+    onError: ({ actionState }) => {
+      console.log(actionState.message);
+      // TODO optionally handle error
+    },
+  });
+
   return (
     <form action={action} className="flex flex-col gap-y-2">
       <Label htmlFor="title">Title</Label>
